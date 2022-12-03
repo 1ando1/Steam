@@ -1,0 +1,22 @@
+﻿@model Data.Models.Game;
+<section>
+    <div class="col-md-4 col-md-offset-4">
+        @*<iframe src="@Model.Trailer></iframe>*@
+        <img src="@Model.Image" width="300" height="300">
+        <br>
+        <h7>Game Creator: @Model.Creator</h7>
+        <br>
+        <h7>Game Publisher: @Model.Publisher</h7>
+        <br>
+        <h7>@Model.Genre</h7>
+    </div>
+    <div>
+        <h6>
+            Buy @Model.Name - @Model.Price$
+            <br>
+            @Model.Weight Gb
+        </h6>
+        <p>@Model.Description</p>
+        
+    </div>
+</section>

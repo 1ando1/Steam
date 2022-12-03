@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Data.Models.Game>;
+
+    @{
+        string imgPlaceholder = @"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQMAAADCCAMAAAB6zFdcAAAAllBMVEUcJzopuqYp//8zxLAcJDgcJTkcITYbGjIpvqkcIDYqwq00zbccKz0bGDEbHDMbHjUje3cnppcdMEAn4uUcFS0fSFEp+foorJwmb28ptKEfT1YjdXIdOEgdPUwbCCYeVWMhjJMjsbYmz9Mmx8wfYW0gbHYhZGUgVlwbEColkoklioMhh5Ao6+0eSlkmnpEkpq0hd4EimqDWy7+WAAACjUlEQVR4nO3XW3eiMBSGYbDhKISDiiJiDx6qjtX2//+5oa1ip2686HSWrOn73IaF7o9kJzEMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAH82ybXXt/3BFlhf2vWBSBrr/M2Ow9DS6vbt/6G2z3uwu7Tc+aIehY1vNL1I6dKIL41ZUvaCVGWtjft/LOke9RSiXodSgiEeD5vUSlcu4eEy9pnHbeIzjURl9w3/+Zqvbh84fssVKes4O1qbv++YmsOUXRaO8GveTsZbH9SDpVsx4dWGqXMXqV9b5ZPskVKkmO9985e8CsQYdv4+7+aP4pe2x2b151d00hHgt+ulzApW9MBHCQ4lVkYVUoz0wj+OJJ4WkkvcIKnJIV6NnQga98yJUmrvHGoepUKO3cesQlkKN3riOoLsL/0UpX6UmPSGDTno2W0+fuTI4n8yWtTtlEAsZOKM6g5u8VfNAlWIGk/MMxu7FDAzjYwZCV3SKjxm0qStaxoMQwTY42/9UWSfg5hNhe7TXpwxGwvYYLU9rIWnVWjDCZyGDmdQT13VP3EgnAG9ZZ5CnQkZVQ6kzKNqVgbE6b4rZQpjL3uDQFN1cXAqGfdg7Tb9wpPFoVE8Dqadek9Ivnw8I+6n0oB7nvuu6/nAslmjY6fpt3C0atv+wuKmWQ7eKoGXngyoE53a//RBDtvfk03BUFrtkV0yazsLKWK6TZDNubPreYDMc7pZN58yr8qbW/GX2fmXIZotp04VAOdpzLt15dOhFTuN1ofqhUEeObtlCOFJeXwdP8+fneakbTvsHf11ASxN4Yylbh33dxnkKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwX/kNsEwhwRsWe+UAAAAASUVORK5CYII=";
+    }
+
+    <table class="table table-darkblue table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Image</th>
+                <th scope="col">Name</th>
+                <th scope="col">Creator</th>
+                <th scope="col">Price</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <form asp-action="Index" method="get">
+                <div class="form-group float-right">
+                    <input type="text" name="searchStr" value="@ViewData["CurrentFilter"]" placeholder="Search by Name" />
+                    <input type="submit" value="Search" class="btn-primary" />
+                </div>
+            </form>
+                @foreach (var game in Model)
+                {
+                <tr class="align-middle">
+                    <td scope="row">@game.Id</td>
+                    <td>
+                        <div class="image-cell-block">
+                            <img src="@(game.Image ?? imgPlaceholder)" class="image-cell" />
+                        </div>
+                    </td>
+                    <td scope="row">@game.Name</td>
+                    <td scope="row">@game.Creator</td>
+                    <td scope="row">@game.Price$</td>
+                    <td>
+                        <a asp-controller="Game" asp-action="Details" asp-route-id="@game.Id" class="btn ap-btn">Details</a>
+                        <a asp-controller="Game" asp-action="Edit" asp-route-id="@game.Id" class="btn ap-btn">Edit</a>
+                        <a asp-controller="Game" asp-action="Delete" asp-route-id="@game.Id" class="btn ap-btn">Delete</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+    </table>
+    <a asp-controller="Game" asp-action="Add" type="button" class="btn table-lightblue">Add Game</a>

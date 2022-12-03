@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Steam.ViewModels.GameCardViewModel>;
+@{
+    //string returnUrl = ViewBag.ReturnUrl;
+    string imgPlaceholder = @"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQMAAADCCAMAAAB6zFdcAAAAllBMVEUcJzopuqYp//8zxLAcJDgcJTkcITYbGjIpvqkcIDYqwq00zbccKz0bGDEbHDMbHjUje3cnppcdMEAn4uUcFS0fSFEp+foorJwmb28ptKEfT1YjdXIdOEgdPUwbCCYeVWMhjJMjsbYmz9Mmx8wfYW0gbHYhZGUgVlwbEColkoklioMhh5Ao6+0eSlkmnpEkpq0hd4EimqDWy7+WAAACjUlEQVR4nO3XW3eiMBSGYbDhKISDiiJiDx6qjtX2//+5oa1ip2686HSWrOn73IaF7o9kJzEMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAH82ybXXt/3BFlhf2vWBSBrr/M2Ow9DS6vbt/6G2z3uwu7Tc+aIehY1vNL1I6dKIL41ZUvaCVGWtjft/LOke9RSiXodSgiEeD5vUSlcu4eEy9pnHbeIzjURl9w3/+Zqvbh84fssVKes4O1qbv++YmsOUXRaO8GveTsZbH9SDpVsx4dWGqXMXqV9b5ZPskVKkmO9985e8CsQYdv4+7+aP4pe2x2b151d00hHgt+ulzApW9MBHCQ4lVkYVUoz0wj+OJJ4WkkvcIKnJIV6NnQga98yJUmrvHGoepUKO3cesQlkKN3riOoLsL/0UpX6UmPSGDTno2W0+fuTI4n8yWtTtlEAsZOKM6g5u8VfNAlWIGk/MMxu7FDAzjYwZCV3SKjxm0qStaxoMQwTY42/9UWSfg5hNhe7TXpwxGwvYYLU9rIWnVWjDCZyGDmdQT13VP3EgnAG9ZZ5CnQkZVQ6kzKNqVgbE6b4rZQpjL3uDQFN1cXAqGfdg7Tb9wpPFoVE8Dqadek9Ivnw8I+6n0oB7nvuu6/nAslmjY6fpt3C0atv+wuKmWQ7eKoGXngyoE53a//RBDtvfk03BUFrtkV0yazsLKWK6TZDNubPreYDMc7pZN58yr8qbW/GX2fmXIZotp04VAOdpzLt15dOhFTuN1ofqhUEeObtlCOFJeXwdP8+fneakbTvsHf11ASxN4Yylbh33dxnkKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwX/kNsEwhwRsWe+UAAAAASUVORK5CYII=";
+}
+
+@*<a href="@returnUrl" class="btn btn-outline-dark">Back</a>*@
+<form asp-action="Index" method="get">
+    <div class="form-group float-right">
+        <input type="text" name="searchStr" value="@ViewData["CurrentFilter"]" placeholder="Search by Name" />
+        <input type="submit" value="Search" class="btn-primary" />
+    </div>
+</form>
+<div class="text-center">
+    <h1 class="display-4">Games</h1>
+    <hr />
+    <div class="row row-cols-2 row-cols-lg-4 g-3 align-items-stretch">
+        @foreach (var i in Model)
+        {
+            <a asp-controller="Game" asp-action="Details" asp-route-id="@i.Game.Id">
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="@(i.Game.Image ?? imgPlaceholder)" class="card-img-top prod-image" alt="ProdImg">
+                        <div class="card-body game-card">
+                            <h5 class="card-title">@i.Game.Name</h5>
+                            <h5 class="card-title">@i.Game.Genre</h5>
+                            <p class="card-text">Price: @i.Game.Price$</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        @if (!i.IsInCard)
+                        {
+                            <a class="btn-outline-success" asp-controller="Cart" asp-action="Add" asp-route-id="@i.Game.Id">Add to Cart</a>
+                        }
+                        else
+                        {
+                            <a class="ap-btn" asp-controller="Cart" asp-action="Remove" asp-route-id="@i.Game.Id">Remove from Cart</a>
+                        }
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+</div>
